@@ -5,7 +5,7 @@
 #include <math.h>
 #include "../utility.h"
 #include "canvas.h"
-#include "colorpresets.h"
+#include "../colorpresets.h"
 
 namespace PixelMaestro {
 	/**

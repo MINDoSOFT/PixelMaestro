@@ -6,23 +6,24 @@
 #define PALETTE_H
 
 #include <stdlib.h>
+#include <vector>
 #include "colors.h"
 
 namespace PixelMaestro {
 	class Palette {
 		public:
-			Palette(const Colors::RGB colors[], uint8_t size);
+			Palette(const std::vector<Colors::RGB> colors, uint8_t size);
 			Palette(const Palette& other);
 			Palette& operator=(const Palette& other);
 			~Palette();
 			Colors::RGB& get_color_at_index(uint8_t index) const;
-			Colors::RGB* get_colors() const;
+			std::vector<Colors::RGB>* get_colors() const;
 			uint8_t get_num_colors() const;
-			void set_colors(const Colors::RGB colors[], uint8_t num_colors);
+			void set_colors(const std::vector <Colors::RGB> colors, uint8_t num_colors);
 
 		private:
 			/// The colors in the Palette.
-			Colors::RGB* colors_ = nullptr;
+			std::vector<Colors::RGB>* colors_ = nullptr;
 
 			/// The number of colors in the Palette.
 			uint8_t num_colors_ = 0;

@@ -58,8 +58,11 @@ TEST_CASE("Create and manipulate a section.", "[Section]") {
 	}
 
 	SECTION("Verify that Layers work.") {
-		Colors::RGB section_colors[] = {ColorPresets::White};
-		Colors::RGB layer_colors[] = {ColorPresets::Black, ColorPresets::Blue};
+		std::vector<Colors::RGB> section_colors;
+		section_colors.push_back(ColorPresets::White);
+		std::vector<Colors::RGB> layer_colors; 
+		layer_colors.push_back(ColorPresets::Black);
+		layer_colors.push_back(ColorPresets::Blue);
 
 		Palette section_palette = Palette(section_colors, 1);
 		Palette layer_palette = Palette(layer_colors, 2);

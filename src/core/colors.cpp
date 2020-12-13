@@ -2,8 +2,10 @@
 	Colors.cpp - Color handling utilities.
 */
 
+#include <vector>
 #include "../utility.h"
 #include "colors.h"
+
 
 namespace PixelMaestro {
 
@@ -16,7 +18,7 @@ namespace PixelMaestro {
 	 * @param comet_start How far the comet	body is from the start of the array.
 	 * @param comet_length The length of the comet from body to tail.
 	 */
-	void Colors::generate_comet(RGB *array, uint8_t array_size, RGB &body_color, RGB &tail_color, uint8_t comet_start, uint8_t comet_length) {
+	void Colors::generate_comet(std::vector<RGB>* array, uint8_t array_size, RGB &body_color, RGB &tail_color, uint8_t comet_start, uint8_t comet_length) {
 		// Start by enforcing some requirements. The comet can't be bigger than the array.
 		uint8_t start = comet_start;
 		uint8_t length = comet_length;
@@ -30,20 +32,20 @@ namespace PixelMaestro {
 		// First, set the array's background color to black.
 		Colors::RGB black = {0, 0, 0};
 		for (uint8_t i = 0; i < array_size; i++) {
-			array[i] = black;
+			array->at(i) = black;
 		}
 
 		// Next, fade from the comet's start to the comet's body
 		generate_scaling_color_array(&array[0], black, body_color, start, false);
-		array[comet_start] = body_color;
+		array->at(comet_start) = body_color;
 
 		// Finally, generate the comet's tail and decrease the brightness
 		generate_scaling_color_array(&array[start + 1], body_color, tail_color, length, false);
 		float diff = 1 / (float)-length;
 		for (uint8_t i = 0; i < length; i++) {
-			array[start + 1 + i].r += array[start + 1 + i].r * (diff * i);
-			array[start + 1 + i].g += array[start + 1 + i].g * (diff * i);
-			array[start + 1 + i].b += array[start + 1 + i].b * (diff * i);
+			array->at(start + 1 + i).r += array->at(start + 1 + i).r * (diff * i);
+			array->at(start + 1 + i).g += array->at(start + 1 + i).g * (diff * i);
+			array->at(start + 1 + i).b += array->at(start + 1 + i).b * (diff * i);
 		}
 	}
 
@@ -65,9 +67,9 @@ namespace PixelMaestro {
 	 * @param array The array to populate.
 	 * @param num_colors The number of colors to generate.
 	 */
-	void Colors::generate_random_color_array(RGB* array, uint8_t num_colors) {
+	void Colors::generate_random_color_array(std::vector<Colors::RGB>* array, uint8_t num_colors) {
 		for (uint8_t i = 0; i < num_colors; i++) {
-			array[i] = generate_random_color();
+			array->at(i) = generate_random_color();
 		}
 	}
 
@@ -80,7 +82,7 @@ namespace PixelMaestro {
 		@param num_colors Number of colors in the array.
 		@param mirror If true, the array will be mirrored from the target color back to the base color.
 	*/
-	void Colors::generate_scaling_color_array(RGB* array, RGB& base_color, RGB& target_color, uint8_t num_colors, bool mirror) {
+	void Colors::generate_scaling_color_array(std::vector<Colors::RGB>* array, RGB& base_color, RGB& target_color, uint8_t num_colors, bool mirror) {
 		if (mirror) {
 			num_colors /= 2;
 		}
@@ -94,32 +96,32 @@ namespace PixelMaestro {
 
 		// Apply the step distance to each index of the array.
 		for (uint8_t i = 0; i < num_colors; i++) {
-			array[i].r = base_color.r + (step[0] * i);
-			array[i].g = base_color.g + (step[1] * i);
-			array[i].b = base_color.b + (step[2] * i);
+			array->at(i).r = base_color.r + (step[0] * i);
+			array->at(i).g = base_color.g + (step[1] * i);
+			array->at(i).b = base_color.b + (step[2] * i);
 		}
 
 		if (mirror) {
 			// Handle the middle color.
-			array[num_colors].r = base_color.r + (step[0] * num_colors);
-			array[num_colors].g = base_color.g + (step[1] * num_colors);
-			array[num_colors].b = base_color.b + (step[2] * num_colors);
+			array->at(num_colors).r = base_color.r + (step[0] * num_colors);
+			array->at(num_colors).g = base_color.g + (step[1] * num_colors);
+			array->at(num_colors).b = base_color.b + (step[2] * num_colors);
 
 			// Repeat the first half of the array in reverse for each remaining color.
 			for (uint8_t i = num_colors + 1; i < (num_colors * 2) + 1; i++) {
-				array[i].r = array[num_colors - (i - num_colors)].r;
-				array[i].g = array[num_colors - (i - num_colors)].g;
-				array[i].b = array[num_colors - (i - num_colors)].b;
+				array->at(i).r = array->at(num_colors - (i - num_colors)).r;
+				array->at(i).g = array->at(num_colors - (i - num_colors)).g;
+				array->at(i).b = array->at(num_colors - (i - num_colors)).b;
 			}
 		}
 
 		// Handle odd number of colors
 		if (num_colors % 2 != 0) {
 			if (mirror) {
-				array[num_colors * 2] = base_color;
+				array->at(num_colors * 2) = base_color;
 			}
 			else {
-				array[num_colors * 2] = target_color;
+				array->at(num_colors * 2) = target_color;
 			}
 		}
 	}

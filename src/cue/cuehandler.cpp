@@ -2,6 +2,8 @@
  * CueHandler - Base class for mapping Cues to PixelMaestro actions.
  */
 
+#include <vector>
+
 #include "cuehandler.h"
 
 namespace PixelMaestro {
@@ -57,7 +59,7 @@ namespace PixelMaestro {
 	 */
 	Palette* CueHandler::deserialize_palette(const uint8_t* cue, uint8_t num_colors) {
 		int index = -1;
-		Colors::RGB colors[num_colors];
+		std::vector<Colors::RGB> colors(num_colors);
 		for (uint8_t i = 0; i < num_colors; i++) {
 			colors[i].r = cue[++index];
 			colors[i].g = cue[++index];

@@ -50,6 +50,6 @@ namespace PixelMaestro {
 		ColorPresets::Violet
 	};
 
-	Palette ColorPresets::Colorwheel_Palette = Palette(Colorwheel, 12);
-	Palette ColorPresets::Rainbow_Palette = Palette(Rainbow, 7);
+	Palette ColorPresets::Colorwheel_Palette = Palette(std::vector<Colors::RGB> (std::begin(Colorwheel), std::end(Colorwheel)), 12);
+	Palette ColorPresets::Rainbow_Palette = Palette(std::vector<Colors::RGB>(std::begin(Rainbow), std::end(Rainbow)), 7);
 }

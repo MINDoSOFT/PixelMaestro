@@ -74,7 +74,7 @@ namespace PixelMaestro {
 	 * @param colors
 	 * @param num_colors
 	 */
-	void MandelbrotAnimation::set_palette(const Colors::RGB colors[], uint8_t num_colors) {
+	void MandelbrotAnimation::set_palette(const std::vector<Colors::RGB> colors, uint8_t num_colors) {
 		palette_->set_colors(colors, num_colors);
 		max_iterations_ = num_colors;
 	}

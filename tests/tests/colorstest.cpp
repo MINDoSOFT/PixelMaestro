@@ -37,9 +37,9 @@ TEST_CASE("Can generate random color.", "[Colors::RGB]") {
 
 TEST_CASE("Can generate random color array.", "[Array]") {
 	unsigned char num_colors = 10;
-	Colors::RGB new_array[num_colors];
+	std::vector<Colors::RGB> new_array(num_colors);
 
-	Colors::generate_random_color_array(new_array, num_colors);
+	Colors::generate_random_color_array(&new_array, num_colors);
 
 	// There's a (very) small chance that black could have been randomly generated, but we'll assume it wasn't.
 	for (unsigned char index = 0; index < num_colors; index++) {
@@ -50,15 +50,15 @@ TEST_CASE("Can generate random color array.", "[Array]") {
 TEST_CASE("Can generate scaling color array.", "[Array]") {
 	unsigned char num_colors = 15;
 	unsigned char threshold = 255 / num_colors;
-	Colors::RGB new_array[num_colors];
+	std::vector<Colors::RGB> new_array(num_colors);
 
-	Colors::generate_scaling_color_array(new_array, ColorPresets::Black, ColorPresets::White, num_colors, false);
+	Colors::generate_scaling_color_array(&new_array, ColorPresets::Black, ColorPresets::White, num_colors, false);
 
 	unsigned char expected = 0;
 	for (unsigned char index = 0; index < num_colors; index++) {
-		REQUIRE((unsigned int)new_array[index].r == expected);
-		REQUIRE((unsigned int)new_array[index].g == expected);
-		REQUIRE((unsigned int)new_array[index].b == expected);
+		REQUIRE((unsigned int)new_array.at(index).r == expected);
+		REQUIRE((unsigned int)new_array.at(index).g == expected);
+		REQUIRE((unsigned int)new_array.at(index).b == expected);
 
 		expected += threshold;
 	}

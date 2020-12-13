@@ -13,7 +13,7 @@ namespace PixelMaestro {
 		public:
 			explicit MandelbrotAnimation(Section& section);
 			~MandelbrotAnimation() = default;
-			void set_palette(const Colors::RGB colors[], uint8_t num_colors);
+			void set_palette(const std::vector<Colors::RGB> colors, uint8_t num_colors);
 			void update();
 
 		private:
